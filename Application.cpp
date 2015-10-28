@@ -21,6 +21,7 @@ Application::Application()
 	mMouse(0),
 	mKeyboard(0)
 {
+	
 }
 
 Application::~Application()
@@ -32,8 +33,7 @@ Application::~Application()
 	delete mRoot;
 }
 
-Ogre::SceneNode* origin;;
-Ogre::SceneNode* ogreNode;
+
 bool Application::go()
 {
 #ifdef _DEBUG
@@ -82,8 +82,9 @@ bool Application::go()
 	mSceneMgr = mRoot->createSceneManager(Ogre::ST_GENERIC);
 
 	mCamera = mSceneMgr->createCamera("MainCam");
-	mCamera->setPosition(0, 0, 160);
-	mCamera->lookAt(0, 0, -300);
+	mCamera->setPosition(100, 100, 160);
+	playerCamera.setPosition(mCamera->getPosition().x, mCamera->getPosition().y, mCamera->getPosition().z);
+	mCamera->lookAt(0, 0, 0);
 	mCamera->setNearClipDistance(5);
 
 	Ogre::Viewport* vp = mWindow->addViewport(mCamera);
@@ -96,10 +97,12 @@ bool Application::go()
 	// Create Scene
 	Ogre::Vector3 movement(20,20, 0);
 	Ogre::Entity* ogreEntity = mSceneMgr->createEntity("ogrehead.mesh");
-	origin = mSceneMgr->getRootSceneNode()->createChildSceneNode();;
+	origin = mSceneMgr->getRootSceneNode()->createChildSceneNode();
+	origin->attachObject(ogreEntity);
 	ogreNode = origin->createChildSceneNode();
-	ogreNode->attachObject(ogreEntity);
-	ogreNode->translate(40, 30, 0);
+	ogreNode->attachObject(mCamera);
+	origin->setPosition(0, 30, 0);
+	ogreNode->translate(0, 30, 0);
 
 	//ogreNode = mSceneMgr->getRootSceneNode()->createChildSceneNode();
 	//ogreNode->attachObject(ogreEntity);
@@ -145,13 +148,7 @@ bool Application::go()
 		mInputMgr->createInputObject(OIS::OISMouse, false));
 	mKeyboard->capture();
 	mMouse->capture();
-	//-->Keyboard inputs
-	/*mKeyboard->capture();
-	if (mKeyboard->isKeyDown(OIS::KC_UP)) {
-		mCamera->setPosition(0, 0, 320);
-	}*/
-		
-	//<-- Keyboard inputs ends
+	
 	windowResized(mWindow);
 	Ogre::WindowEventUtilities::addWindowEventListener(mWindow, this);
 
@@ -161,16 +158,18 @@ bool Application::go()
 
 	return true;
 }
-Ogre::Vector3 movement(0, 0, 160);
+
+
 bool Application::frameRenderingQueued(const Ogre::FrameEvent& fe)
 {
-	//Ogre::Vector3 movement(0, 0, 0);
+	
+	 playerCamera.init(mRoot, mWindow, mCamera, origin, ogreNode);
+	 return playerCamera.keyListener();
 	if (mWindow->isClosed()) return false;
-	mKeyboard->capture();
-	mMouse->capture();
-
 	
 
+	
+	/*
 	if (mKeyboard->isKeyDown(OIS::KC_ESCAPE)) return false;
 	else if (mKeyboard->isKeyDown(OIS::KC_UP)) {
 		movement.z += 1;
@@ -219,7 +218,7 @@ bool Application::frameRenderingQueued(const Ogre::FrameEvent& fe)
 	}
 	else if (mKeyboard->isKeyDown(OIS::KC_NUMPAD9)) {
 		origin->rotate(Ogre::Quaternion(Ogre::Degree(-1), Ogre::Vector3(0, 0, 1)), Ogre::Node::TransformSpace::TS_WORLD);
-	}
+	}*/
 	return true;
 }
 

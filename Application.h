@@ -1,5 +1,6 @@
 #ifndef APPLICATION_H
 #define APPLICATION_H
+#include "PlayerCamera.h"
 #include <OgreRoot.h>
 #include <OISEvents.h>
 #include <OISInputManager.h>
@@ -38,7 +39,9 @@ private:
 	OIS::Keyboard* mKeyboard;
 	OIS::Mouse* mMouse;
 
-	
+	PlayerCamera playerCamera;
+	Ogre::SceneNode* origin;
+	Ogre::SceneNode* ogreNode;
 };
 
 #endif
