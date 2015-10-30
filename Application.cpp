@@ -111,7 +111,7 @@ bool Application::go()
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(.5, .5, .5));
 
 	Ogre::Light* light = mSceneMgr->createLight("MainLight");
-	light->setPosition(20, 80, 50);
+	light->setPosition(20, 600, 50);
 
 	mSceneMgr->setAmbientLight(Ogre::ColourValue(0, 0, 0));
 	mSceneMgr->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);

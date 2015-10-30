@@ -24,6 +24,9 @@
     <ClInclude Include="PlayerCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Math3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Objects.cpp">

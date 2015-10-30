@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Math3D.h" />
     <ClInclude Include="Objects.h" />
     <ClInclude Include="PlayerCamera.h" />
   </ItemGroup>

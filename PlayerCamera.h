@@ -1,5 +1,6 @@
 #ifndef PlayerCamera_H
 #define PlayerCamera_H
+#include "Math3D.h"
 #include <OgreRoot.h>
 #include <OISEvents.h>
 #include <OISInputManager.h>
@@ -28,7 +29,10 @@ public:
 		mCamera = _mCamera;
 		origin = _origin;
 		cameraNode = _cameraNode;
-
+		up = false;
+		back = false;
+		left = false;
+		right = false;
 	}
 	void setPosition(float x, float y, float z) {
 		position.x = x;
@@ -53,35 +57,24 @@ public:
 		mMouse->capture();
 		if (mKeyboard->isKeyDown(OIS::KC_ESCAPE)) return false;
 		else if (mKeyboard->isKeyDown(OIS::KC_UP)) {
-			position.z += 1;
-			mCamera->setPosition(position);
-			mCamera->lookAt(0, 0, 0);
+			up = true;
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_DOWN)) {
-			position.z -= 1;
-			mCamera->setPosition(position);
-			mCamera->lookAt(0, 0, 0);
+			back = true;
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_LEFT)) {
-			position.x -= 1;
-			mCamera->setPosition(position);
-			mCamera->lookAt(0, 0, 0);
+			left = true;
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_RIGHT)) {
-			position.x += 1;
-			mCamera->setPosition(position);
-			mCamera->lookAt(0, 0, 0);
+			right = true;
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_NUMPAD1)) {
-			position.y -= 1;
-			mCamera->setPosition(position);
-			mCamera->lookAt(0, 0, 0);
+			
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_NUMPAD2)) {
-			position.y += 1;
-			mCamera->setPosition(position);
-			mCamera->lookAt(0, 0, 0);
+			
 		}//rot
+		/*
 		else if (mKeyboard->isKeyDown(OIS::KC_NUMPAD4)) {
 			cameraNode->rotate(Ogre::Quaternion(Ogre::Degree(1), Ogre::Vector3(1, 0, 0)), Ogre::Node::TransformSpace::TS_WORLD);
 		}
@@ -99,7 +92,36 @@ public:
 		}
 		else if (mKeyboard->isKeyDown(OIS::KC_NUMPAD9)) {
 			cameraNode->rotate(Ogre::Quaternion(Ogre::Degree(-1), Ogre::Vector3(0, 0, 1)), Ogre::Node::TransformSpace::TS_WORLD);
+		}*/
+
+		//Key released event
+		
+		if (!mKeyboard->isKeyDown(OIS::KC_UP)) {
+			up = false;
 		}
+		else if (!mKeyboard->isKeyDown(OIS::KC_DOWN)) {
+			back = false;
+		}
+		else if (!mKeyboard->isKeyDown(OIS::KC_LEFT)) {
+			left = false;
+		}
+		else if (!mKeyboard->isKeyDown(OIS::KC_RIGHT)) {
+			right = false;
+		}
+		/*
+		//Check event 
+		if (up) {
+			Ogre::Vector3 direction = math3D.directionVector(
+				cameraNode->getPosition().x, cameraNode->getPosition().y, cameraNode->getPosition().z,
+				origin->getPosition().x, origin->getPosition().y, origin->getPosition().z);
+			position.x += direction.x * 1;
+			position.y += direction.y * 1;
+			position.z += direction.z * 1;
+
+			origin->setPosition(position);
+			mCamera->lookAt(origin->getPosition().x, origin->getPosition().y, origin->getPosition().z);
+		}
+		*/
 		return true;
 	};
 private:
@@ -114,6 +136,11 @@ private:
 	Ogre::SceneNode* objectNode;
 	Ogre::SceneNode* origin;
 	Ogre::SceneNode* cameraNode;
+	bool up;
+	bool back;
+	bool left;
+	bool right;
+	Math3D math3D;
 };
 
 #endif
